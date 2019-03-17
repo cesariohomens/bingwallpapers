@@ -11,7 +11,7 @@
 # crontab -l | { cat; echo "0 */2 * * * /bin/bash /home/username/scripts/bingwallpapers.sh >/dev/null 2>&1"; } | crontab -
 
 ## Config wallpaper path
-wallpaperPath="/home/cesario/Pictures"
+wallpaperPath="/home/username/Pictures"
 
 ## Do not edit anything bellow
 wget -q --spider http://google.com
