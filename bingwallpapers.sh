@@ -11,25 +11,25 @@
 # crontab -l | { cat; echo "0 */2 * * * /bin/bash /home/username/scripts/bingwallpapers.sh >/dev/null 2>&1"; } | crontab -
 
 ## Config wallpaper path
-wallpaperPath="/home/username/Pictures"
+wallpaperPath="/home/cesario/Pictures"
 
 ## Do not edit anything bellow
 wget -q --spider http://google.com
 
 if [ $? -eq 0 ]; then
     echo "Online"
-	imageName=$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=1&mkt=en-US" | grep -o -m 1 "/th?id=.*.&amp;rf=NorthMale_1920x1080.jpg&amp;pid=hp")
-    prefix="/th?id=";
-	imageName=${imageName#$prefix};
-	suffix="&amp;rf=NorthMale_1920x1080.jpg&amp;pid=hp";
-	imageName=${imageName%$suffix};
-		if [ -e $wallpaperPath"/"$imageName ]
+	imageLink=$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=1&mkt=en-US" | grep -o -m 1 "/th?id=.*.jpg");
+	imageLink=${imageLink%&*};
+	prefix="/th?id=";
+	fileName=${imageLink#$prefix};
+
+		if [ -e $wallpaperPath"/"$fileName ]
 		then
-			echo "$imageName found."
+			echo "$fileName found."
 		else
-			echo "$imageName not found."
-			wget "https://www.bing.com/th?id="$imageName -O $wallpaperPath/$imageName
-			cp $wallpaperPath"/"$imageName $wallpaperPath"/"bingwallpaper.jpg
+			echo "$fileName not found."
+			wget "https://www.bing.com/th?id="$fileName -O $wallpaperPath/$fileName
+			cp $wallpaperPath"/"$fileName $wallpaperPath"/"bingwallpaper.jpg
 		fi
 else
     echo "Offline"
